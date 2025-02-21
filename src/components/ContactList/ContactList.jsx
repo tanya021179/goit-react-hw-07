@@ -8,12 +8,12 @@ import {
   selectFilteredContacts,
   selectLoading,
 } from "../../redux/contactsSlice";
-import { selectNameFilter } from "../../redux/filterSlice";
+// import { selectNameFilter } from "../../redux/filtersSlice";
 
 const ContactList = () => {
   const contacts = useSelector(selectFilteredContacts);
   const dispatch = useDispatch();
-  const filter = useSelector(selectNameFilter);
+  // const filter = useSelector(selectNameFilter);
   const isLoading = useSelector(selectLoading);
 
   if (isLoading) {
@@ -24,13 +24,13 @@ const ContactList = () => {
     return <div>No contacts available.</div>;
   }
 
-  const filteredData = contacts.filter((item) =>
-    item.name.toLowerCase().includes(filter.toLowerCase())
-  );
+  // const filteredData = contacts.filter((item) =>
+  //   item.name.toLowerCase().includes(filter.toLowerCase())
+  // );
 
   return (
     <div>
-      {filteredData.map(({ id, name, number }) => (
+      {contacts.map(({ id, name, number }) => (
         <li className={s.item} key={id}>
           <Contact
             name={name}
