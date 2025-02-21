@@ -3,15 +3,31 @@ import Contact from "../Contact/Contact";
 import s from "./ContactList.module.css";
 import { FaPhoneAlt } from "react-icons/fa";
 import { FaUser } from "react-icons/fa6";
-import { deleteContact } from "../../redux/contactsSlice";
+import { deleteContact } from "../../redux/contactsOps";
+import {
+  selectFilteredContacts,
+  selectLoading,
+} from "../../redux/contactsSlice";
+import { selectNameFilter } from "../../redux/filterSlice";
 
 const ContactList = () => {
-  const contacts = useSelector((state) => state.contacts.items);
+  const contacts = useSelector(selectFilteredContacts);
   const dispatch = useDispatch();
-  const filter = useSelector((state) => state.filter.filter);
+  const filter = useSelector(selectNameFilter);
+  const isLoading = useSelector(selectLoading);
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  if (!contacts.length) {
+    return <div>No contacts available.</div>;
+  }
+
   const filteredData = contacts.filter((item) =>
     item.name.toLowerCase().includes(filter.toLowerCase())
   );
+
   return (
     <div>
       {filteredData.map(({ id, name, number }) => (
